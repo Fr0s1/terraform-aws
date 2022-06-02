@@ -37,3 +37,8 @@ output "caller_identity" {
   description = "Details about caller identity"
   value       = data.aws_caller_identity.this
 }
+
+output "aws_partition" {
+  description = "Details about aws partition"
+  value       = data.aws_partition.this
+}

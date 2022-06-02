@@ -32,3 +32,8 @@ output "amazon_linux_ecs_id" {
   description = "AMI ID of Amazon Linux ECS"
   value       = data.aws_ami.amazon_linux_ecs.id
 }
+
+output "caller_identity" {
+  description = "Details about caller identity"
+  value       = data.aws_caller_identity.this
+}

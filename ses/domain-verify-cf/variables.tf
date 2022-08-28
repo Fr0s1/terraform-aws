@@ -3,6 +3,12 @@ variable "domain_name" {
   type        = string
 }
 
+variable "ses_domain" {
+  description = "The domain is used for SES. The ses_domain is sub-domain of the domain_name. Default is ''"
+  type        = string
+  default     = ""
+}
+
 variable "cf_email" {
   description = "The email associated with the account."
   type        = string

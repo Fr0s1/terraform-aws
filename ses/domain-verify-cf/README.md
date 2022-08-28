@@ -10,7 +10,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.15.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.28.0 |
 | <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | 3.15.0 |
 
 ## Modules
@@ -35,6 +35,7 @@ No modules.
 | <a name="input_cf_api_token"></a> [cf\_api\_token](#input\_cf\_api\_token) | The Cloudflare API Token. This is an alternative to email+api\_key. If both are specified, api\_token will be used over email+api\_key fields. | `string` | `null` | no |
 | <a name="input_cf_email"></a> [cf\_email](#input\_cf\_email) | The email associated with the account. | `string` | `null` | no |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | The domain name of CloudFlare DNS records to register with this CloudFront distribution | `string` | n/a | yes |
+| <a name="input_ses_domain"></a> [ses\_domain](#input\_ses\_domain) | The domain is used for SES. The ses\_domain is sub-domain of the domain\_name. Default is '' | `string` | `""` | no |
 
 ## Outputs
 

@@ -17,7 +17,7 @@ data "cloudflare_zones" "this" {
 }
 
 resource "aws_ses_domain_identity" "this" {
-  domain = var.domain_name
+  domain = local.ses_domain
 }
 
 ## Verify:

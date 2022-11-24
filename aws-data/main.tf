@@ -6,91 +6,66 @@ data "aws_caller_identity" "this" {}
 
 data "aws_partition" "this" {}
 
-data "aws_ami" "ubuntu_1804" {
-  most_recent = true
-  owners      = ["099720109477"]
+locals {
+  default_amis = var.use_default ? tomap({
+    "ubuntu1804" = {
+      owners      = ["099720109477"]
+      most_recent = true
+      filters = {
+        name                = ["ubuntu-minimal/images/*/ubuntu-bionic-18.04-*"]
+        virtualization-type = ["hvm"]
+        root-device-type    = ["ebs"]
+        architecture        = ["x86_64"]
+      }
+    }
+    "amazonlinux2" = {
+      owners      = ["amazon"]
+      most_recent = true
+      filters = {
+        name                = ["amzn2-ami-kernel-*hvm*-gp*", "amzn2-ami-hvm*-gp*"]
+        virtualization-type = ["hvm"]
+        root-device-type    = ["ebs"]
+        architecture        = ["x86_64"]
+      }
+    }
+    "ubuntu2004" = {
+      owners      = ["099720109477"]
+      most_recent = true
+      filters = {
+        name                = ["ubuntu/images/*/ubuntu-focal-20.04-amd64-*"]
+        virtualization-type = ["hvm"]
+        root-device-type    = ["ebs"]
+        architecture        = ["x86_64"]
+      }
+    }
+    "ubuntu2204" = {
+      owners      = ["099720109477"]
+      most_recent = true
+      filters = {
+        name                = ["ubuntu/images/*/ubuntu-jammy-22.04-*"]
+        virtualization-type = ["hvm"]
+        root-device-type    = ["ebs"]
+        architecture        = ["x86_64"]
+      }
+    }
+  }) : tomap({})
 
-  filter {
-    name   = "name"
-    values = ["ubuntu-minimal/images/*/ubuntu-bionic-18.04-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
+  aws_amis = merge(local.default_amis, var.aws_amis)
 }
 
-data "aws_ami" "amazon_linux2" {
-  most_recent = true
-  owners      = ["137112412989"] # Amazon
+data "aws_ami" "this" {
+  for_each = local.aws_amis
 
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-*"]
-  }
+  most_recent      = try(each.value.most_recent, true)
+  owners           = try(each.value.owners, ["amazon"])
+  name_regex       = try(each.value.name_regex, null)
+  executable_users = try(each.value.executable_users, null)
 
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-}
-
-data "aws_ami" "ubuntu_2004" {
-  most_recent = true
-  owners      = ["099720109477"]
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/*/ubuntu-focal-20.04-amd64-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-}
-
-data "aws_ami" "amazon_linux_ecs" {
-  most_recent = true
-  owners      = ["amazon"]
-  filter {
-    name   = "name"
-    values = ["amzn-ami-*-amazon-ecs-optimized"]
-  }
-  filter {
-    name   = "owner-alias"
-    values = ["amazon"]
+  dynamic "filter" {
+    for_each = try(each.value.filters, {})
+    content {
+      name   = filter.key
+      values = filter.value
+    }
   }
 }

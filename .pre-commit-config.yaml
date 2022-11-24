@@ -5,8 +5,12 @@ repos:
       - id: terraform_fmt
       - id: terraform_validate
       - id: terraform_docs
-      - id: terraform_docs_replace
+        args:
+          - --hook-config=--add-to-existing-file=true
       - id: terraform_tflint
+        args:
+          - --args=--disable-rule=terraform_required_version
+          - --args=--disable-rule=terraform_required_providers
       - id: terraform_tfsec
       - id: terrascan
 

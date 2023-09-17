@@ -1,6 +1,13 @@
 data "aws_region" "selected" {}
 
-data "aws_availability_zones" "available" {}
+data "aws_availability_zones" "all_available" {}
+
+data "aws_availability_zones" "available" {
+  filter = {
+    name = "zone-type"
+    value = "availability-zone"
+  }
+}
 
 data "aws_caller_identity" "this" {}
 

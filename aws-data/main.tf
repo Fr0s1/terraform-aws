@@ -3,9 +3,9 @@ data "aws_region" "selected" {}
 data "aws_availability_zones" "all_available" {}
 
 data "aws_availability_zones" "available" {
-  filter = {
+  filter {
     name = "zone-type"
-    value = "availability-zone"
+    values = ["availability-zone"]
   }
 }
 

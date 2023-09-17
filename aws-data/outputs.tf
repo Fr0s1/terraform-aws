@@ -3,8 +3,13 @@ output "aws_region" {
   value       = data.aws_region.selected
 }
 
-output "available_aws_availability_zones_names" {
+output "all_available_aws_availability_zones_names" {
   description = "A list of the Availability Zone names available to the account"
+  value       = data.aws_availability_zones.all_available.names
+}
+
+output "available_aws_availability_zones_names" {
+  description = "A list of the Availability Zone names available to the account (not include local zone and Wavelength)
   value       = data.aws_availability_zones.available.names
 }
 

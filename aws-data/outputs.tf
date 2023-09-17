@@ -9,7 +9,7 @@ output "all_available_aws_availability_zones_names" {
 }
 
 output "available_aws_availability_zones_names" {
-  description = "A list of the Availability Zone names available to the account (not include local zone and Wavelength)
+  description = "A list of the Availability Zone names available to the account (not include local zone and Wavelength)"
   value       = data.aws_availability_zones.available.names
 }
 

@@ -25,6 +25,26 @@ locals {
         architecture        = ["x86_64"]
       }
     }
+    "amazonlinux2023" = {
+      owners      = ["amazon"]
+      most_recent = true
+      filters = {
+        name                = ["al2023-ami-2023*-kernel-6.1-x86_64"]
+        virtualization-type = ["hvm"]
+        root-device-type    = ["ebs"]
+        architecture        = ["x86_64"]
+      }
+    }
+    "amazonlinux2023-ecs" = {
+      owners      = ["amazon"]
+      most_recent = true
+      filters = {
+        name                = ["al2023-ami-ecs-hvm-*-kernel-6.1-x86_64*"]
+        virtualization-type = ["hvm"]
+        root-device-type    = ["ebs"]
+        architecture        = ["x86_64"]
+      }
+    }
     "amazonlinux2" = {
       owners      = ["amazon"]
       most_recent = true

@@ -15,16 +15,6 @@ data "aws_partition" "this" {}
 
 locals {
   default_amis = var.use_default ? tomap({
-    "ubuntu1804" = {
-      owners      = ["099720109477"]
-      most_recent = true
-      filters = {
-        name                = ["ubuntu-minimal/images/*/ubuntu-bionic-18.04-*"]
-        virtualization-type = ["hvm"]
-        root-device-type    = ["ebs"]
-        architecture        = ["x86_64"]
-      }
-    }
     "amazonlinux2023" = {
       owners      = ["amazon"]
       most_recent = true
